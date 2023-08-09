@@ -146,8 +146,8 @@ libresapihttpserver {
 	} else {
 		mac {
 			INCLUDEPATH += . $$INC_DIR
-			#for(lib, LIB_DIR):exists($$lib/libmicrohttpd.a){ LIBS *= $$lib/libmicrohttpd.a}
-			LIBS *= -lmicrohttpd
+			# for(lib, LIB_DIR):exists($$lib/libmicrohttpd.a){ LIBS *= $$lib/libmicrohttpd.a}
+			LIBS *= @PREFIX@/lib/libmicrohttpd.a
 		} else {
 			LIBS *= -lmicrohttpd
 		}

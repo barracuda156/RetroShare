@@ -85,7 +85,7 @@ rs_cppwarning:CONFIG -= no_rs_cppwarning
 # To disable GXS mail append the following assignation to qmake command line
 # "CONFIG+=no_rs_gxs_trans"
 CONFIG *= rs_gxs_trans
-#no_rs_gxs_trans:CONFIG -= rs_gxs_trans ## Disabing not supported ATM
+# no_rs_gxs_trans:CONFIG -= rs_gxs_trans ## Disabing not supported ATM
 
 # To enable GXS based async chat append the following assignation to qmake
 # command line "CONFIG+=rs_async_chat"
@@ -93,12 +93,8 @@ CONFIG *= no_rs_async_chat
 rs_async_chat:CONFIG -= no_rs_async_chat
 
 # To select your MacOsX version append the following assignation to qmake
-# command line "CONFIG+=rs_macos10.11" where 10.11 depends your version
-macx:CONFIG *= rs_macos10.11
-rs_macos10.8:CONFIG -= rs_macos10.11
-rs_macos10.9:CONFIG -= rs_macos10.11
-rs_macos10.10:CONFIG -= rs_macos10.11
-rs_macos10.12:CONFIG -= rs_macos10.11
+# command line "CONFIG+=rs_macos@TARGET@" where @TARGET@ depends your version
+# macx:CONFIG *= rs_macos@TARGET@
 
 
 linux-* {
@@ -165,45 +161,26 @@ win32 {
 }
 
 macx {
-	rs_macos10.8 {
-		message(***retroshare.pri: Set Target and SDK to MacOS 10.8 )
-		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.8
-		QMAKE_MAC_SDK = macosx10.8
+	rs_macos@TARGET@ {
+		message(***retroshare.pri: Set Target and SDK to MacOS @TARGET@ )
+		QMAKE_MACOSX_DEPLOYMENT_TARGET=@TARGET@
+		QMAKE_MAC_SDK = macosx@TARGET@
 	}
 
-	rs_macos10.9 {
-		message(***retroshare.pri: Set Target and SDK to MacOS 10.9 )
-		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.9
-		QMAKE_MAC_SDK = macosx10.9
-	}
-
-	rs_macos10.10 {
-		message(***retroshare.pri: Set Target and SDK to MacOS 10.10 )
-		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
-		QMAKE_MAC_SDK = macosx10.10
-	}
-
-	rs_macos10.11 {
-		message(***retroshare.pri: Set Target and SDK to MacOS 10.11 )
-		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.11
-		QMAKE_MAC_SDK = macosx10.11
-	}
-
-	rs_macos10.12 {
-		message(***retroshare.pri: Set Target and SDK to MacOS 10.12 )
-		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.12
-		QMAKE_MAC_SDK = macosx10.12
-		QMAKE_CXXFLAGS += -Wno-nullability-completeness
-		QMAKE_CFLAGS += -Wno-nullability-completeness
-	}
+#	rs_macos10.12 {
+#		message(***retroshare.pri: Set Target and SDK to MacOS 10.12 )
+#		QMAKE_MACOSX_DEPLOYMENT_TARGET=10.12
+#		QMAKE_MAC_SDK = macosx10.12
+#		QMAKE_CXXFLAGS += -Wno-nullability-completeness
+#		QMAKE_CFLAGS += -Wno-nullability-completeness
+#	}
 
 	message(***retroshare.pri:MacOSX)
 	BIN_DIR += "/usr/bin"
 	INC_DIR += "/usr/include"
-	INC_DIR += "/usr/local/include"
-	INC_DIR += "/opt/local/include"
-	LIB_DIR += "/usr/local/lib"
-	LIB_DIR += "/opt/local/lib"
+	BIN_DIR += "@PREFIX@/bin"
+	INC_DIR += "@PREFIX@/include"
+	LIB_DIR += "@PREFIX@/lib"
 	CONFIG += c++11
 }
 

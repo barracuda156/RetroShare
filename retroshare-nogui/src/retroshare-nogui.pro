@@ -98,15 +98,19 @@ macx {
 	# CONFIG += ppc x86
 
 	LIBS += -Wl,-search_paths_first
-	LIBS += -lssl -lcrypto -lz
-	for(lib, LIB_DIR):exists($$lib/libminiupnpc.a){ LIBS += $$lib/libminiupnpc.a}
+	LIBS += -lssl -lcrypto -lgnutls -lz -lbz2 -lgpg-error
+	LIBS += @PREFIX@/lib/libsqlcipher.a
+	LIBS += @PREFIX@/lib/libgpgme.a
+	# LIBS += @PREFIX@/lib/libgpg-error.a
+	LIBS += @PREFIX@/lib/libminiupnpc.a
+	LIBS += @PREFIX@/lib/libmicrohttpd.a
 	LIBS += -framework CoreFoundation
 	LIBS += -framework Security
 	for(lib, LIB_DIR):LIBS += -L"$$lib"
-	for(bin, BIN_DIR):LIBS += -L"$$bin"
 
 	DEPENDPATH += . $$INC_DIR
 	INCLUDEPATH += . $$INC_DIR
+	INCLUDEPATH += @PREFIX@/include
 
 	QMAKE_CXXFLAGS *= -Dfseeko64=fseeko -Dftello64=ftello -Dstat64=stat -Dstatvfs64=statvfs -Dfopen64=fopen
 }
@@ -161,6 +165,12 @@ INCLUDEPATH += . $$PWD/../../libretroshare/src
 
 PRE_TARGETDEPS *= $$OUT_PWD/../../libretroshare/src/lib/libretroshare.a
 LIBS *= $$OUT_PWD/../../libretroshare/src/lib/libretroshare.a
+
+PRE_TARGETDEPS *= $$OUT_PWD/../../openpgpsdk/src/lib/libops.a
+LIBS *= $$OUT_PWD/../../openpgpsdk/src/lib/libops.a
+
+PRE_TARGETDEPS *= $$OUT_PWD/../../libbitdht/src/lib/libbitdht.a
+LIBS *= $$OUT_PWD/../../libbitdht/src/lib/libbitdht.a
 
 # Input
 HEADERS +=  notifytxt.h

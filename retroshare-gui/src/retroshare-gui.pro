@@ -238,8 +238,8 @@ win32 {
 
 macx {
 	# ENABLE THIS OPTION FOR Univeral Binary BUILD.
-	#CONFIG += ppc x86
-	#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+	# CONFIG += ppc x86
+	# QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 	QMAKE_INFO_PLIST = Info.plist
 	mac_icon.files = $$files($$PWD/rsMacIcon.icns)
 	mac_icon.path = Contents/Resources
@@ -249,18 +249,20 @@ macx {
 	QMAKE_BUNDLE_DATA += mac_webui
 
 	CONFIG += version_detail_bash_script
-        LIBS += -lssl -lcrypto -lz 
-        #LIBS += -lssl -lcrypto -lz -lgpgme -lgpg-error -lassuan
-	for(lib, LIB_DIR):exists($$lib/libminiupnpc.a){ LIBS += $$lib/libminiupnpc.a}
+	LIBS += -lssl -lcrypto -lgnutls -lz -lgpg-error -lassuan
+	LIBS += @PREFIX@/lib/libsqlcipher.a
+	LIBS += @PREFIX@/lib/libgpgme.a
+	# LIBS += @PREFIX@/lib/libgpg-error.a
+	LIBS += @PREFIX@/lib/libminiupnpc.a
 	LIBS += -framework CoreFoundation
 	LIBS += -framework Security
 	LIBS += -framework Carbon
 
 	for(lib, LIB_DIR):LIBS += -L"$$lib"
-	for(bin, BIN_DIR):LIBS += -L"$$bin"
 
 	DEPENDPATH += . $$INC_DIR
 	INCLUDEPATH += . $$INC_DIR
+	INCLUDEPATH += @PREFIX@/include
 
 	#DEFINES *= MAC_IDLE # for idle feature
 	CONFIG -= uitools
